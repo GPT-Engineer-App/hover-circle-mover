@@ -6,11 +6,14 @@ const Index = () => {
 
   const moveCircle = () => {
     const angle = Math.random() * 360;
+    const radius = 25;
     const x = Math.cos(angle) * 200;
     const y = Math.sin(angle) * 200;
+    const newTop = Math.min(Math.max(position.top + y, radius), window.innerHeight - radius);
+    const newLeft = Math.min(Math.max(position.left + x, radius), window.innerWidth - radius);
     setPosition({
-      top: position.top + y,
-      left: position.left + x,
+      top: newTop,
+      left: newLeft,
     });
   };
 
