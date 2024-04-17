@@ -31,11 +31,11 @@ const Index = () => {
     const newCircles = [...circles];
     newCircles[circleIndex] = { ...circle, top: newTop, left: newLeft };
 
-    if (moveCount % 5 === 0) {
+    if (moveCount % 5 === 0 && newCircles.length < 50) {
       const newCircle1 = { id: Math.random(), top: newTop, left: newLeft, radius: 12.5 };
       const newCircle2 = { id: Math.random(), top: newTop, left: newLeft, radius: 12.5 };
-      if (newCircles.every((c) => !isOverlapping(newCircle1, c))) newCircles.push(newCircle1);
-      if (newCircles.every((c) => !isOverlapping(newCircle2, c))) newCircles.push(newCircle2);
+      newCircles.push(newCircle1);
+      newCircles.push(newCircle2);
     }
 
     setCircles(newCircles);
