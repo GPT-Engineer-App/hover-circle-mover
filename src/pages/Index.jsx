@@ -19,7 +19,7 @@ const Index = () => {
 
   return (
     <ChakraProvider>
-      <Box position="absolute" top={position.top + "px"} left={position.left + "px"} w="50px" h="50px" borderRadius="50%" bg="blue.500" onMouseOver={moveCircle} />
+      <Box position="absolute" top={position.top + "px"} left={position.left + "px"} w="50px" h="50px" borderRadius="50%" bg="blue.500" onMouseOver={moveCircle} transition="top 0.5s, left 0.5s" />
     </ChakraProvider>
   );
 };
