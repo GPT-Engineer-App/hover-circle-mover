@@ -2,24 +2,35 @@ import { Box, ChakraProvider } from "@chakra-ui/react";
 import { useState } from "react";
 
 const Index = () => {
-  const [position, setPosition] = useState({ top: 50, left: 50 });
+  const [circles, setCircles] = useState([{ id: 1, top: 50, left: 50, radius: 25 }]);
+  const [moveCount, setMoveCount] = useState(0);
 
-  const moveCircle = () => {
+  const moveCircle = (id) => {
+    setMoveCount((prev) => prev + 1);
+    const circleIndex = circles.findIndex((c) => c.id === id);
+    const circle = circles[circleIndex];
     const angle = Math.random() * 360;
-    const radius = 25;
     const x = Math.cos(angle) * 200;
     const y = Math.sin(angle) * 200;
-    const newTop = Math.min(Math.max(position.top + y, radius), window.innerHeight - radius);
-    const newLeft = Math.min(Math.max(position.left + x, radius), window.innerWidth - radius);
-    setPosition({
-      top: newTop,
-      left: newLeft,
-    });
+    const newTop = Math.min(Math.max(circle.top + y, circle.radius), window.innerHeight - circle.radius);
+    const newLeft = Math.min(Math.max(circle.left + x, circle.radius), window.innerWidth - circle.radius);
+
+    const newCircles = [...circles];
+    newCircles[circleIndex] = { ...circle, top: newTop, left: newLeft };
+
+    if (moveCount % 5 === 0) {
+      newCircles.push({ id: Math.random(), top: newTop, left: newLeft, radius: 12.5 });
+      newCircles.push({ id: Math.random(), top: newTop, left: newLeft, radius: 12.5 });
+    }
+
+    setCircles(newCircles);
   };
 
   return (
     <ChakraProvider>
-      <Box position="absolute" top={position.top + "px"} left={position.left + "px"} w="50px" h="50px" borderRadius="50%" bg="blue.500" onMouseOver={moveCircle} transition="top 0.5s, left 0.5s" />
+      {circles.map((circle) => (
+        <Box key={circle.id} position="absolute" top={circle.top + "px"} left={circle.left + "px"} w={circle.radius * 2 + "px"} h={circle.radius * 2 + "px"} borderRadius="50%" bg="blue.500" onMouseOver={() => moveCircle(circle.id)} transition="top 0.5s, left 0.5s" />
+      ))}
     </ChakraProvider>
   );
 };
